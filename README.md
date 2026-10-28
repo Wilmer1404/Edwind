@@ -93,19 +93,28 @@ TRANSIGOVAI/
 ├── GUIA_EJECUCION.md              # Manual de puesta en marcha paso a paso
 ├── ARQUITECTURA_Y_PATRONES.md     # Especificación de arquitectura, SOLID y CQRS
 ├── DOMINIOS_Y_FUNCIONES.md        # Diccionario detallado de módulos y servicios
-└── BUENAS_PRACTICAS_Y_CALIDAD.md  # Estándares de seguridad, dependencias y auditoría
+├── BUENAS_PRACTICAS_Y_CALIDAD.md  # Estándares de seguridad, dependencias y auditoría
+├── DOC_SEGURIDAD_Y_JWT.md         # Inmersión técnica: Criptografía, BCrypt y JWT
+├── DOC_CAPA_DATOS_DAO.md          # Inmersión técnica: Persistencia, DAO y Anti-SQLi
+└── DOC_CAPA_SERVICIOS_SOLID.md    # Inmersión técnica: Servicios, SOLID y Fail-Fast
 ```
 
 ---
 
 ## 4. Índice de Documentación Oficial
 
-Para profundizar en cualquier aspecto del ciclo de vida del software, consulta las guías específicas:
+Para profundizar en cualquier aspecto del ciclo de vida del software, consulta las guías y los análisis técnicos específicos:
 
+### Guías Generales y Arquitectura
 1. 🚀 **[GUIA_EJECUCION.md](./GUIA_EJECUCION.md):** Manual detallado paso a paso para encender XAMPP, compilar el backend, ejecutar el frontend y levantar el auditor SonarQube.
 2. 📐 **[ARQUITECTURA_Y_PATRONES.md](./ARQUITECTURA_Y_PATRONES.md):** Fundamentos del MVC moderno, aplicación del Patrón DAO, segregación CQRS en vehículos y la convención de "Spanglish Arquitectónico".
 3. 📖 **[DOMINIOS_Y_FUNCIONES.md](./DOMINIOS_Y_FUNCIONES.md):** Diccionario funcional de servicios de negocio, exportación con Apache POI y trazabilidad de auditoría.
 4. 🛡️ **[BUENAS_PRACTICAS_Y_CALIDAD.md](./BUENAS_PRACTICAS_Y_CALIDAD.md):** Estándares de prevención de inyección SQL, uso de librerías base (Guava/Commons/Logback) y auditoría con JaCoCo y SonarQube.
+
+### Inmersiones Técnicas Profundas (Deep Dives)
+5. 🔐 **[DOC_SEGURIDAD_Y_JWT.md](./DOC_SEGURIDAD_Y_JWT.md):** Análisis de BCrypt (costo 12), firma simétrica HMAC-SHA256, prevención de Timing Attacks y el método guardián `requerirUsuarioEnRoles()`.
+6. 💾 **[DOC_CAPA_DATOS_DAO.md](./DOC_CAPA_DATOS_DAO.md):** Aislamiento de base de datos con el Patrón DAO, parametrización estricta con `JdbcTemplate` y segregación CQRS de lectura/escritura en vehículos.
+7. 🧱 **[DOC_CAPA_SERVICIOS_SOLID.md](./DOC_CAPA_SERVICIOS_SOLID.md):** Inversión de Dependencias (DIP) por constructor, resolución de responsabilidades únicas (SRP en Empresas/Conductores) y validación defensiva con Google Guava.
 
 ---
 
