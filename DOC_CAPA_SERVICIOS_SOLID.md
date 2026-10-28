@@ -199,3 +199,4 @@ public class VehiculoMutacionServiceImpl implements IVehiculoMutacionService {
 1. **Mensajes de Error Ricos en Contexto:** Los mensajes incluyen los valores infractores (`[%s]`), facilitando el diagnóstico inmediato en los logs.
 2. **Cero Datos Corruptos en Base de Datos:** Los DAOs y MySQL reciben exclusivamente información sanitizada y verificada.
 3. **Claridad Semántica:** El código se documenta a sí mismo mediante precondiciones explícitas, haciendo evidente para cualquier nuevo desarrollador cuáles son los requisitos de entrada de cada función.
+

@@ -192,3 +192,4 @@ public Map<String, Object> requerirUsuarioEnRoles(HttpServletRequest solicitud, 
 
 ### Ventaja de la Doble Verificación en Base de Datos:
 A diferencia de los esquemas JWT puramente *stateless* que no pueden revocar accesos hasta que el token expire naturalmente, TRANSIGOVAI consulta el estado `is_active` en la base de datos MySQL. Si un administrador desactiva a un inspector en el panel, el token del inspector queda invalidado **en la siguiente petición de inmediato**.
+

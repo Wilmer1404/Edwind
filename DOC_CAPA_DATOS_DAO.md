@@ -173,3 +173,4 @@ flowchart TD
    * Los métodos de consulta son intrínsecamente de sólo lectura (`@Transactional(readOnly = true)`), lo que permite a Spring y al driver JDBC optimizar la gestión de conexiones y evitar la creación de buffers de rollback innecesarios.
 3. **Escalabilidad Futura (Read Replicas):**
    * Esta división deja al sistema listo para que `VehiculoConsultaDaoImpl` apunte a una réplica de lectura de MySQL (Slave) y `VehiculoMutacionDaoImpl` apunte al nodo maestro (Master) simplemente configurando un enrutador de DataSources dinámico (`AbstractRoutingDataSource`), sin tocar una sola línea de lógica de negocio.
+
