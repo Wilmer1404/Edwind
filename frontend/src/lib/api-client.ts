@@ -282,6 +282,16 @@ class APIClient {
     return response.data
   }
 
+  async listAuditoria(params: any = {}) {
+    try {
+      const response = await javaClient.get('/auditoria', { params })
+      return response.data
+    } catch {
+      const fallback = await javaClient.get('/logs/list.php', { params })
+      return fallback.data
+    }
+  }
+
   async getDashboardStats() {
     const response = await javaClient.get('/stats/dashboard')
     return response.data

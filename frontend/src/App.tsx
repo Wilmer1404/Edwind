@@ -17,6 +17,7 @@ import { PublicConsultaPage } from '@/pages/PublicConsulta'
 import { TucPublicaPage } from '@/pages/TucPublica'
 import { FiscalizadorHome } from '@/pages/FiscalizadorHome'
 import { VerificarPage } from '@/pages/Verificar'
+import { BitacoraAuditoria } from '@/pages/BitacoraAuditoria'
 import { Toaster } from 'sonner'
 import './index.css'
 
@@ -138,6 +139,16 @@ export default function App() {
         <Route path="/historial" element={
           <ProtectedRoute allowedRoles={OPERATIVE}>
             <HistorialPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/bitacora" element={
+          <ProtectedRoute allowedRoles={OPERATIVE}>
+            <BitacoraAuditoria />
+          </ProtectedRoute>
+        } />
+        <Route path="/auditoria" element={
+          <ProtectedRoute allowedRoles={OPERATIVE}>
+            <BitacoraAuditoria />
           </ProtectedRoute>
         } />
 

@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth'
 import {
   LogOut, Menu, X, LayoutDashboard, Users, Truck, FileText,
   History, Building2, Search, RotateCw, ScanLine, ShieldCheck,
-  UserCog, Link2
+  UserCog, Link2, ScrollText
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { UserRole } from '@/types'
@@ -98,6 +98,12 @@ export function Layout({ children }: LayoutProps) {
       label: 'Historial',
       icon: History,
       path: '/historial',
+      roles: ['admin', 'operador'],
+    },
+    {
+      label: 'Bitácora',
+      icon: ScrollText,
+      path: '/bitacora',
       roles: ['admin', 'operador'],
     },
 

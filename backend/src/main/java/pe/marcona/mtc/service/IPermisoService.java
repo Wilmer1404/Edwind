@@ -45,6 +45,13 @@ public interface IPermisoService {
     List<Long> marcarExpirados(long idActor, HttpServletRequest solicitud);
 
     /**
+     * Marca como vencidos los permisos expirados invocados desde procesos automatizados del sistema.
+     */
+    default List<Long> marcarExpirados() {
+        return marcarExpirados(1L, null);
+    }
+
+    /**
      * Genera la secuencia correlativa oficial del número de permiso para el año corriente.
      */
     String generarSiguienteNumeroPermiso();

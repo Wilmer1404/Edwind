@@ -13,8 +13,12 @@ import pe.marcona.mtc.service.ILimitePeticionesService;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Controlador REST para la consulta de bitácora y trazas de auditoría.
+ * Expone endpoints en /api/logs y /api/auditoria con control de acceso por roles.
+ */
 @RestController
-@RequestMapping("/api/logs")
+@RequestMapping({"/api/logs", "/api/auditoria"})
 public class ActionLogController {
 
     private final IAuditoriaService auditoriaService;

@@ -12,7 +12,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: marcona_permisos
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       # Se autoejecutan al iniciar la base de datos por primera vez:
@@ -34,3 +34,4 @@ services:
 
 volumes:
   mysql_data:
+    name: transigovai_mysql_data
