@@ -172,3 +172,4 @@ jobs:
   #   steps:
   #     - name: Aquí iría el código de k6
   #       run: echo "k6 configurado"
+  

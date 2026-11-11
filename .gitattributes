@@ -1,32 +1,32 @@
 # ==========================================
-# LINGUIST - FORZAR ESTADÍSTICAS (Java > 50%)
+# GITHUB LINGUIST - CONFIGURACIÓN DEFINITIVA
+# Proyecto: TRANSIGOVAI (Backend Spring Boot + Frontend Vite/React)
 # ==========================================
 
-# 1. Forzar detección base
+# 1. Detección base para código fuente
 *.java linguist-detectable=true
 *.ts linguist-detectable=true
 *.tsx linguist-detectable=true
 
-# 2. Ignorar recursivamente componentes de UI y subcarpetas
+# 2. Exclusión recursiva de librerías de UI de terceros y subcarpetas
 frontend/components/** linguist-vendored linguist-detectable=false
 frontend/src/components/** linguist-vendored linguist-detectable=false
 frontend/src/ui/** linguist-vendored linguist-detectable=false
 
-# 3. Ignorar utilidades y hooks que no son lógica core
+# 3. Exclusión recursiva de utilidades, hooks y tipos no-core
 frontend/hooks/** linguist-vendored linguist-detectable=false
 frontend/src/hooks/** linguist-vendored linguist-detectable=false
 frontend/lib/** linguist-vendored linguist-detectable=false
 frontend/src/lib/** linguist-vendored linguist-detectable=false
 frontend/src/types/** linguist-vendored linguist-detectable=false
 
-# 4. Ignorar dependencias
+# 4. Exclusión de dependencias y lockfiles
+package-lock.json linguist-generated
+frontend/package-lock.json linguist-generated
 yarn.lock linguist-generated
 pnpm-lock.yaml linguist-generated
 
-# 5. Ignorar infraestructura y backups
+# 5. Exclusión de infraestructura, backups y base de datos
 infraestructura/** linguist-generated
 backups/** linguist-generated
 *.sql linguist-generated
-
-# 6. Override de lenguaje estratégico
-frontend/package-lock.json linguist-language=Java linguist-detectable=true -linguist-generated
