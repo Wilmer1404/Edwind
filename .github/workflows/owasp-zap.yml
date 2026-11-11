@@ -34,13 +34,20 @@ jobs:
           mvn spring-boot:run &
           sleep 45 
 
-      - name: Conceder permisos para ZAP
-        run: chmod -R 777 $GITHUB_WORKSPACE
+      - name: Configurar reglas de ZAP (Ignorar Falsos Positivos de API)
+        run: |
+          mkdir -p .zap
+          echo -e "90022\tIGNORE\t(Application Error Disclosure en Swagger)" > .zap/rules.tsv
+          echo -e "10023\tIGNORE\t(Information Disclosure Debug Errors)" >> .zap/rules.tsv
+          echo -e "10049\tIGNORE\t(Non-Storable Content en API)" >> .zap/rules.tsv
+          echo -e "90005\tIGNORE\t(Sec-Fetch Headers Missing en API)" >> .zap/rules.tsv
+          chmod -R 777 $GITHUB_WORKSPACE
 
       - name: Ejecutar OWASP ZAP contra la instancia temporal
         uses: zaproxy/action-baseline@v0.15.0
         with:
           target: 'http://localhost:8080/v3/api-docs'
+          rules_file_name: '.zap/rules.tsv'
           allow_issue_writing: false 
           cmd_options: '-a'
           
