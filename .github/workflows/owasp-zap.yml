@@ -19,21 +19,25 @@ jobs:
         run: |
           cd infraestructura
           docker compose up -d db
-          sleep 15 # Esperamos que MySQL levante completamente
-
+          sleep 15
+          
       - name: Iniciar Backend Spring Boot en segundo plano
         run: |
           cd backend
           mvn spring-boot:run &
-          sleep 30 # Esperamos que Spring Boot y Actuator estén listos
-        
+          sleep 45 
+
+      # ZAP necesita permisos en la carpeta actual para escribir sus reportes y archivos .yaml
+      - name: Conceder permisos para ZAP
+        run: chmod -R 777 $GITHUB_WORKSPACE
+
       - name: Ejecutar OWASP ZAP contra la instancia temporal
         uses: zaproxy/action-baseline@v0.12.0
         with:
-          target: 'http://localhost:8080/v3/api-docs' # Escaneamos directamente la definición de Swagger
+          target: 'http://localhost:8080/v3/api-docs'
           allow_issue_writing: false 
           cmd_options: '-a'
-
+          
       - name: Guardar Reporte de Seguridad HTML
         if: always()
         uses: actions/upload-artifact@v4
