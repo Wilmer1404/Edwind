@@ -11,7 +11,7 @@ jobs:
   # CAJA 1: TESTING
   # ---------------------------------------------------
   test:
-    name: 🧪 Unit & Integration Tests
+    name:  Unit & Integration Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout del código
@@ -39,7 +39,7 @@ jobs:
   # CAJA 2: COMPILACIÓN (Depende de TEST)
   # ---------------------------------------------------
   build:
-    name: 📦 Build Artifact (JAR)
+    name:  Build Artifact (JAR)
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -69,7 +69,7 @@ jobs:
   # CAJA 3: ESCANEO OWASP ZAP (Depende de BUILD)
   # ---------------------------------------------------
   security_scan:
-    name: 🛡️ OWASP ZAP Scan
+    name:  OWASP ZAP Scan
     needs: build
     runs-on: ubuntu-latest
     steps:
