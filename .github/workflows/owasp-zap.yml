@@ -1,0 +1,42 @@
+name: OWASP ZAP Security Scan (Local)
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: Escaneo ZAP en Contenedores Locales
+    
+    steps:
+      - name: Checkout del código fuente
+        uses: actions/checkout@v4
+
+      - name: Levantar Base de Datos (MySQL)
+        run: |
+          cd infraestructura
+          docker compose up -d transigovai-db
+          sleep 15 # Esperamos que MySQL levante completamente
+
+      - name: Iniciar Backend Spring Boot en segundo plano
+        run: |
+          cd backend
+          mvn spring-boot:run &
+          sleep 30 # Esperamos que Spring Boot y Actuator estén listos
+        
+      - name: Ejecutar OWASP ZAP contra la instancia temporal
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: 'http://localhost:8080/v3/api-docs' # Escaneamos directamente la definición de Swagger
+          allow_issue_writing: false 
+          cmd_options: '-a'
+
+      - name: Guardar Reporte de Seguridad HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZAP-Security-Report
+          path: report_html.html
