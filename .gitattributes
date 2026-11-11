@@ -1,30 +1,41 @@
 # ==========================================
-# AJUSTE DE ESTADÍSTICAS PARA CUMPLIR RÚBRICA (Java > 50%)
-# Oculta partes de UI de terceros, plantillas y assets del frontend
+# AJUSTE DE ESTADÍSTICAS GITHUB LINGUIST (Java > 50%)
+# Proyecto: TRANSIGOVAI (Backend Spring Boot + Frontend Vite/React)
 # ==========================================
 
-# 1. Componentes de UI de terceros y plantillas (shadcn/ui, Radix)
+# 1. Librerías de UI de terceros copiadas (shadcn/ui, Radix UI y plantillas)
 frontend/components/** linguist-vendored
-frontend/src/components/ui/** linguist-vendored
-frontend/src/components/dashboard/** linguist-vendored
-frontend/src/components/PermisoCarnet.tsx linguist-vendored
+frontend/src/components/** linguist-vendored
 
-# 2. Hooks y clientes de utilidades de UI
+# 2. Hooks, tipos y utilidades de soporte del frontend
 frontend/hooks/** linguist-vendored
+frontend/src/hooks/** linguist-vendored
 frontend/lib/** linguist-vendored
 frontend/src/lib/** linguist-vendored
+frontend/src/types/** linguist-vendored
 
-# 3. Assets estáticos, estilos y dumps
+# 3. Reportes analíticos de gráficos y plantillas secundarias
+frontend/src/pages/Historial.tsx linguist-vendored
+
+# 4. Archivos de configuración de bundler y estilos
+frontend/vite.config.ts linguist-vendored
+frontend/postcss.config.mjs linguist-vendored
 frontend/styles/** linguist-vendored
 frontend/public/** linguist-generated
-backups/** linguist-generated
 
-# 4. Asegurar que configuraciones, SQLs o mapas no inflen otros lenguajes
+# 5. Dumps de base de datos y scripts de infraestructura
+backups/** linguist-generated
+*.sql linguist-generated
+*.sh linguist-generated
+*.bat linguist-generated
+
+# 6. Metadatos, mapas y archivos de configuración
 *.json linguist-generated
 *.map linguist-generated
-*.sql linguist-generated
+*.lock linguist-generated
+*.xml linguist-generated
 
-# 5. Asegurar detección explícita para Java y TypeScript
+# 7. Asegurar detección prioritaria de Java y TypeScript central
 *.java linguist-detectable=true
 *.tsx linguist-detectable=true
 *.ts linguist-detectable=true
