@@ -3,39 +3,42 @@
 # Proyecto: TRANSIGOVAI (Backend Spring Boot + Frontend Vite/React)
 # ==========================================
 
-# 1. Librerías de UI de terceros copiadas (shadcn/ui, Radix UI y plantillas)
-frontend/components/** linguist-vendored
-frontend/src/components/** linguist-vendored
+# 1. Librerías de UI de terceros (shadcn/ui, Radix UI, etc.)
+# Ignoramos todos los componentes copiados en estas carpetas específicas:
+frontend/components/* linguist-vendored=true
+frontend/components/ui/* linguist-vendored=true
+frontend/src/components/* linguist-vendored=true
+frontend/src/components/ui/* linguist-vendored=true
+frontend/src/components/dashboard/* linguist-vendored=true
 
 # 2. Hooks, tipos y utilidades de soporte del frontend
-frontend/hooks/** linguist-vendored
-frontend/src/hooks/** linguist-vendored
-frontend/lib/** linguist-vendored
-frontend/src/lib/** linguist-vendored
-frontend/src/types/** linguist-vendored
+frontend/hooks/* linguist-vendored=true
+frontend/src/hooks/* linguist-vendored=true
+frontend/lib/* linguist-vendored=true
+frontend/src/lib/* linguist-vendored=true
+frontend/src/types/* linguist-vendored=true
 
-# 3. Reportes analíticos de gráficos y plantillas secundarias
-frontend/src/pages/Historial.tsx linguist-vendored
+# 3. Módulos secundarios pesados (Historial)
+frontend/src/pages/Historial.tsx linguist-vendored=true
 
 # 4. Archivos de configuración de bundler y estilos
-frontend/vite.config.ts linguist-vendored
-frontend/postcss.config.mjs linguist-vendored
-frontend/styles/** linguist-vendored
-frontend/public/** linguist-generated
+frontend/vite.config.ts linguist-vendored=true
+frontend/postcss.config.mjs linguist-vendored=true
+frontend/tailwind.config.js linguist-vendored=true
+frontend/styles/* linguist-vendored=true
+frontend/public/* linguist-generated=true
 
-# 5. Dumps de base de datos y scripts de infraestructura
-backups/** linguist-generated
-*.sql linguist-generated
-*.sh linguist-generated
-*.bat linguist-generated
+# 5. Dumps de base de datos y scripts
+backups/* linguist-generated=true
+*.sql linguist-generated=true
+*.sh linguist-generated=true
+*.bat linguist-generated=true
 
 # 6. Metadatos, mapas y archivos de configuración
-*.json linguist-generated
-*.map linguist-generated
-*.lock linguist-generated
-*.xml linguist-generated
+*.json linguist-generated=true
+*.map linguist-generated=true
+*.lock linguist-generated=true
+*.xml linguist-generated=true
 
-# 7. Asegurar detección prioritaria de Java y TypeScript central
+# 7. Asegurar detección prioritaria de Java
 *.java linguist-detectable=true
-*.tsx linguist-detectable=true
-*.ts linguist-detectable=true
