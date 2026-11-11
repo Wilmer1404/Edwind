@@ -66,3 +66,5 @@ public class VehicleQueryController {
         throw new ApiException(HttpStatus.BAD_REQUEST, "ID de vehículo requerido");
     }
 }
+
+// Linguist cache refresh 1

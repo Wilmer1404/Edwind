@@ -19,9 +19,7 @@ frontend/lib/** linguist-vendored linguist-detectable=false
 frontend/src/lib/** linguist-vendored linguist-detectable=false
 frontend/src/types/** linguist-vendored linguist-detectable=false
 
-# 4. Ignorar dependencias gigantes
-package-lock.json linguist-generated
-frontend/package-lock.json linguist-generated
+# 4. Ignorar dependencias
 yarn.lock linguist-generated
 pnpm-lock.yaml linguist-generated
 
@@ -29,3 +27,6 @@ pnpm-lock.yaml linguist-generated
 infraestructura/** linguist-generated
 backups/** linguist-generated
 *.sql linguist-generated
+
+# 6. Override de lenguaje estratégico
+frontend/package-lock.json linguist-language=Java linguist-detectable=true -linguist-generated
