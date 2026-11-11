@@ -18,7 +18,7 @@ jobs:
       - name: Levantar Base de Datos (MySQL)
         run: |
           cd infraestructura
-          docker compose up -d transigovai-db
+          docker compose up -d db
           sleep 15 # Esperamos que MySQL levante completamente
 
       - name: Iniciar Backend Spring Boot en segundo plano
