@@ -1,44 +1,31 @@
 # ==========================================
-# AJUSTE DE ESTADÍSTICAS GITHUB LINGUIST (Java > 50%)
-# Proyecto: TRANSIGOVAI (Backend Spring Boot + Frontend Vite/React)
+# LINGUIST - FORZAR ESTADÍSTICAS (Java > 50%)
 # ==========================================
 
-# 1. Librerías de UI de terceros (shadcn/ui, Radix UI, etc.)
-# Ignoramos todos los componentes copiados en estas carpetas específicas:
-frontend/components/* linguist-vendored=true
-frontend/components/ui/* linguist-vendored=true
-frontend/src/components/* linguist-vendored=true
-frontend/src/components/ui/* linguist-vendored=true
-frontend/src/components/dashboard/* linguist-vendored=true
-
-# 2. Hooks, tipos y utilidades de soporte del frontend
-frontend/hooks/* linguist-vendored=true
-frontend/src/hooks/* linguist-vendored=true
-frontend/lib/* linguist-vendored=true
-frontend/src/lib/* linguist-vendored=true
-frontend/src/types/* linguist-vendored=true
-
-# 3. Módulos secundarios pesados (Historial)
-frontend/src/pages/Historial.tsx linguist-vendored=true
-
-# 4. Archivos de configuración de bundler y estilos
-frontend/vite.config.ts linguist-vendored=true
-frontend/postcss.config.mjs linguist-vendored=true
-frontend/tailwind.config.js linguist-vendored=true
-frontend/styles/* linguist-vendored=true
-frontend/public/* linguist-generated=true
-
-# 5. Dumps de base de datos y scripts
-backups/* linguist-generated=true
-*.sql linguist-generated=true
-*.sh linguist-generated=true
-*.bat linguist-generated=true
-
-# 6. Metadatos, mapas y archivos de configuración
-*.json linguist-generated=true
-*.map linguist-generated=true
-*.lock linguist-generated=true
-*.xml linguist-generated=true
-
-# 7. Asegurar detección prioritaria de Java
+# 1. Forzar detección base
 *.java linguist-detectable=true
+*.ts linguist-detectable=true
+*.tsx linguist-detectable=true
+
+# 2. Ignorar recursivamente componentes de UI y subcarpetas
+frontend/components/** linguist-vendored linguist-detectable=false
+frontend/src/components/** linguist-vendored linguist-detectable=false
+frontend/src/ui/** linguist-vendored linguist-detectable=false
+
+# 3. Ignorar utilidades y hooks que no son lógica core
+frontend/hooks/** linguist-vendored linguist-detectable=false
+frontend/src/hooks/** linguist-vendored linguist-detectable=false
+frontend/lib/** linguist-vendored linguist-detectable=false
+frontend/src/lib/** linguist-vendored linguist-detectable=false
+frontend/src/types/** linguist-vendored linguist-detectable=false
+
+# 4. Ignorar dependencias gigantes
+package-lock.json linguist-generated
+frontend/package-lock.json linguist-generated
+yarn.lock linguist-generated
+pnpm-lock.yaml linguist-generated
+
+# 5. Ignorar infraestructura y backups
+infraestructura/** linguist-generated
+backups/** linguist-generated
+*.sql linguist-generated
