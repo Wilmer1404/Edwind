@@ -1,4 +1,4 @@
-name: OWASP ZAP Security Scan (Local)
+name: CI Pipeline (Build, Test & Security)
 
 on:
   push:
@@ -7,9 +7,9 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  zap_scan:
+  build_test_and_scan:
     runs-on: ubuntu-latest
-    name: Escaneo ZAP en Contenedores Locales
+    name: Build, Test & ZAP Scan
     
     steps:
       - name: Checkout del código fuente
@@ -28,13 +28,23 @@ jobs:
           docker compose up -d db
           sleep 15
           
+      - name: Ejecutar Tests de Spring Boot
+        run: |
+          cd backend
+          mvn test
+          
+      - name: Construir el Proyecto (Build JAR)
+        run: |
+          cd backend
+          mvn package -DskipTests
+          
       - name: Iniciar Backend Spring Boot en segundo plano
         run: |
           cd backend
           mvn spring-boot:run &
           sleep 45 
 
-      - name: Configurar reglas de ZAP (Ignorar Falsos Positivos de API)
+      - name: Configurar reglas de ZAP (Ignorar Falsos Positivos)
         run: |
           mkdir -p .zap
           echo -e "90022\tIGNORE\t(Application Error Disclosure en Swagger)" > .zap/rules.tsv
