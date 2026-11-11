@@ -15,6 +15,13 @@ jobs:
       - name: Checkout del código fuente
         uses: actions/checkout@v4
 
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
       - name: Levantar Base de Datos (MySQL)
         run: |
           cd infraestructura
@@ -27,7 +34,6 @@ jobs:
           mvn spring-boot:run &
           sleep 45 
 
-      # ZAP necesita permisos en la carpeta actual para escribir sus reportes y archivos .yaml
       - name: Conceder permisos para ZAP
         run: chmod -R 777 $GITHUB_WORKSPACE
 
