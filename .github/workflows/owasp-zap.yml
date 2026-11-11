@@ -1,4 +1,4 @@
-name: CI Pipeline (Test, Build & Security)
+name: 🚀 DevSecOps Pipeline (CodeQL SAST, Test, Build & ZAP DAST)
 
 on:
   push:
@@ -7,43 +7,80 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  # ---------------------------------------------------
-  # CAJA 1: TESTING
-  # ---------------------------------------------------
-  test:
-    name:  Unit & Integration Tests
+  # ==========================================
+  # CAJA 1: CODEQL (SAST) - Análisis Estático de Código
+  # ==========================================
+  codeql_sast:
+    name:  Análisis Estático (CodeQL)
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
     steps:
-      - name: Checkout del código
+      - name: Checkout del código fuente
         uses: actions/checkout@v4
-        
+
       - name: Configurar Java 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
+
+      - name: Inicializar CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: 'java'
           
-      - name: Levantar Base de Datos para Tests
+      - name: Construir el proyecto para CodeQL
+        run: |
+          cd backend
+          mvn clean install -DskipTests
+
+      - name: Ejecutar Análisis de CodeQL
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:java"
+
+  # ==========================================
+  # CAJA 2: TESTING - Pruebas Unitarias/Integración
+  # ==========================================
+  test:
+    name:  Pruebas de Spring Boot
+    runs-on: ubuntu-latest
+    # Este trabajo corre en paralelo a CodeQL
+    steps:
+      - name: Checkout del código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Levantar Base de Datos (MySQL) para Tests
         run: |
           cd infraestructura
           docker compose up -d db
           sleep 15
           
-      - name: Ejecutar Tests
+      - name: Ejecutar Tests (mvn test)
         run: |
           cd backend
           mvn test
 
-  # ---------------------------------------------------
-  # CAJA 2: COMPILACIÓN (Depende de TEST)
-  # ---------------------------------------------------
+  # ==========================================
+  # CAJA 3: COMPILACIÓN (Depende de Test y CodeQL)
+  # ==========================================
   build:
-    name:  Build Artifact (JAR)
-    needs: test
+    name:  Compilar el JAR (Build)
+    needs: [test, codeql_sast]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout del código
+      - name: Checkout del código fuente
         uses: actions/checkout@v4
         
       - name: Configurar Java 21
@@ -53,27 +90,27 @@ jobs:
           distribution: 'temurin'
           cache: maven
           
-      - name: Empaquetar el Proyecto
+      - name: Empaquetar el Proyecto (Saltar tests ya pasados)
         run: |
           cd backend
           mvn package -DskipTests
           
-      - name: Subir el JAR para el siguiente Job
+      - name: Subir el JAR como Artefacto Temporal
         uses: actions/upload-artifact@v4
         with:
           name: backend-jar
           path: backend/target/*.jar
           retention-days: 1
 
-  # ---------------------------------------------------
-  # CAJA 3: ESCANEO OWASP ZAP (Depende de BUILD)
-  # ---------------------------------------------------
+  # ==========================================
+  # CAJA 4: OWASP ZAP (DAST) - Escaneo Dinámico de Seguridad
+  # ==========================================
   security_scan:
-    name:  OWASP ZAP Scan
+    name:  Escaneo de Seguridad (OWASP ZAP)
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout del código
+      - name: Checkout del código (Para infraestructura)
         uses: actions/checkout@v4
         
       - name: Configurar Java 21
@@ -82,7 +119,7 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Descargar el JAR de la etapa anterior
+      - name: Descargar el JAR compilado
         uses: actions/download-artifact@v4
         with:
           name: backend-jar
@@ -94,13 +131,13 @@ jobs:
           docker compose up -d db
           sleep 15
           
-      - name: Iniciar Backend desde el JAR compilado
+      - name: Iniciar Backend desde el JAR (Producción Simulada)
         run: |
           cd backend/target
           nohup java -jar *.jar > backend.log 2>&1 &
           sleep 45
 
-      - name: Configurar reglas de ZAP
+      - name: Configurar reglas de ZAP (Ignorar Falsos Positivos)
         run: |
           mkdir -p .zap
           echo -e "90022\tIGNORE\t(Application Error Disclosure en Swagger)" > .zap/rules.tsv
@@ -109,7 +146,7 @@ jobs:
           echo -e "90005\tIGNORE\t(Sec-Fetch Headers Missing en API)" >> .zap/rules.tsv
           chmod -R 777 $GITHUB_WORKSPACE
 
-      - name: Ejecutar OWASP ZAP
+      - name: Ejecutar OWASP ZAP Baseline
         uses: zaproxy/action-baseline@v0.15.0
         with:
           target: 'http://localhost:8080/v3/api-docs'
@@ -124,3 +161,14 @@ jobs:
         with:
           name: ZAP-Security-Report
           path: report_html.html
+          
+  # ==========================================
+  # CAJA 5: PRUEBAS DE CARGA (k6) (Depende de Build)
+  # ==========================================
+  # load_testing:
+  #   name:  Pruebas de Carga (k6)
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Aquí iría el código de k6
+  #       run: echo "k6 configurado"
