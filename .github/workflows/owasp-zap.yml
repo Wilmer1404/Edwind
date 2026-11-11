@@ -1,4 +1,4 @@
-name: 🚀 DevSecOps Pipeline (CodeQL SAST, Test, Build & ZAP DAST)
+name:  DevSecOps Pipeline (CodeQL SAST, Test, Build & ZAP DAST)
 
 on:
   push:
